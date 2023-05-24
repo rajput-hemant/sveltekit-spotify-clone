@@ -1,3 +1,63 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+	:root {
+		--background: 25 20 20;
+		--sidebar: 0 0 0;
+		--header: 0 0 0;
+		--text: 255 255 255;
+		--accent: 29 185 84;
+		--menu-bg: 46 46 46;
+		--menu-text: 255 255 255;
+		--light-gray: 167 167 167;
+		--medium-gray: 46 46 46;
+		--dark-gray: 24 24 24;
+		--error: 194 65 65;
+		--warning: 231 169 23;
+	}
+	body {
+		@apply bg-background font-metropolis text-text;
+	}
+
+	::selection {
+		@apply bg-accent text-text;
+	}
+
+	h1 {
+		@apply text-4xl;
+	}
+
+	h2 {
+		@apply text-[2rem];
+	}
+
+	h3 {
+		@apply text-[1.75rem];
+	}
+
+	h4 {
+		@apply text-2xl;
+	}
+
+	h5 {
+		@apply text-xl;
+	}
+
+	p {
+		@apply my-[1em];
+	}
+
+	a {
+		@apply text-accent;
+	}
+
+	select,
+	input,
+	button,
+	a {
+		/* @apply focus-visible:outline-none focus-visible:outline-accent; */
+		@apply ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2;
+	}
+}
