@@ -14,9 +14,9 @@
 	$: user = data.user;
 </script>
 
-<div class="grid place-items-center h-screen">
+<div class="grid h-screen place-items-center">
 	{#if user}
-		<div class="flex items-center flex-col text-2xl">
+		<div class="flex flex-col items-center text-2xl">
 			<p>
 				User: <span class="text-accent">{data.user?.display_name} </span>
 			</p>

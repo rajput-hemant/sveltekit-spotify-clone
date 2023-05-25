@@ -1,7 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# prettier
-pnpm run format
-# lint
-pnpm run lint 
+npx lint-staged

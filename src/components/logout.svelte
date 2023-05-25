@@ -19,7 +19,7 @@
 
 <form method="post" action="/api/auth/logout" on:submit|preventDefault={logoutHandler}>
 	<button
-		class="bg-medium-gray p-2 rounded-md px-4 text-lg hover:bg-zinc-800 active:translate-y-0.5"
+		class="rounded-md bg-medium-gray p-2 px-4 text-lg hover:bg-zinc-800 active:translate-y-0.5"
 	>
 		Logout
 	</button>
