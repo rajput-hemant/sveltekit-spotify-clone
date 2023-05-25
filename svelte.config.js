@@ -8,7 +8,9 @@ const config = {
 	kit: {
 		adapter: adapter(),
 
-		alias: {},
+		alias: {
+			$components: './src/components'
+		},
 
 		files: {
 			assets: './public'
