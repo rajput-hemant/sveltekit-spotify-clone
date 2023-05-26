@@ -25,6 +25,9 @@ devDependencies:
   autoprefixer:
     specifier: ^10.4.14
     version: 10.4.14(postcss@8.4.23)
+  clsx:
+    specifier: ^1.2.1
+    version: 1.2.1
   eslint:
     specifier: ^8.28.0
     version: 8.41.0
@@ -43,6 +46,9 @@ devDependencies:
   lint-staged:
     specifier: ^13.2.2
     version: 13.2.2
+  lucide-svelte:
+    specifier: ^0.221.0
+    version: 0.221.0(svelte@3.59.1)
   pkce-gen:
     specifier: ^1.1.0
     version: 1.1.0
@@ -64,6 +70,9 @@ devDependencies:
   svelte-check:
     specifier: ^3.0.1
     version: 3.3.2(postcss@8.4.23)(svelte@3.59.1)
+  tailwind-merge:
+    specifier: ^1.12.0
+    version: 1.12.0
   tailwindcss:
     specifier: ^3.3.2
     version: 3.3.2
@@ -833,6 +842,11 @@ packages:
       string-width: 5.1.2
     dev: true
 
+  /clsx@1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
+    dev: true
+
   /color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
     engines: {node: '>=7.0.0'}
@@ -1558,6 +1572,14 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+    dev: true
+
+  /lucide-svelte@0.221.0(svelte@3.59.1):
+    resolution: {integrity: sha512-QWkxMMBLFmlUsQpKtHKH9ujlNTz2YIbULfNTDTotzfImDwDvadw3NjBtjkZlYwfsXDyXDX/If/0WB3wEsAr7mw==}
+    peerDependencies:
+      svelte: ^3.49.0
+    dependencies:
+      svelte: 3.59.1
     dev: true
 
   /magic-string@0.27.0:
@@ -2364,6 +2386,10 @@ packages:
   /svelte@3.59.1:
     resolution: {integrity: sha512-pKj8fEBmqf6mq3/NfrB9SLtcJcUvjYSWyePlfCqN9gujLB25RitWK8PvFzlwim6hD/We35KbPlRteuA6rnPGcQ==}
     engines: {node: '>= 8'}
+    dev: true
+
+  /tailwind-merge@1.12.0:
+    resolution: {integrity: sha512-Y17eDp7FtN1+JJ4OY0Bqv9OA41O+MS8c1Iyr3T6JFLnOgLg3EvcyMKZAnQ8AGyvB5Nxm3t9Xb5Mhe139m8QT/g==}
     dev: true
 
   /tailwindcss@3.3.2:
