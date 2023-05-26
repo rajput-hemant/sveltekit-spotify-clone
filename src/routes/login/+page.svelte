@@ -9,7 +9,7 @@
 		<!-- logo -->
 		<img src="/assets/spotify-logo.png" alt="Spotify Logo" class="mb-8 w-44 max-w-full" />
 
-		<h1 class="text-[2.5rem]">EGP 0.00 for 3 months of Premium</h1>
+		<h1 class="text-[2.5rem]">INR 0.00 for 3 months of Premium</h1>
 		<p class="text-xl">Enjoy ad-free music listening, Offline plyback, and more. Cancel anytime.</p>
 
 		<!-- buttons -->

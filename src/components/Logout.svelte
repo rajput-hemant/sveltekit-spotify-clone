@@ -2,6 +2,8 @@
 	import { invalidateAll } from '$app/navigation';
 	import Button from './Button.svelte';
 
+	export let className = '';
+
 	const logoutHandler = async () => {
 		const response = await fetch('/api/auth/logout', {
 			method: 'POST',
@@ -19,5 +21,5 @@
 </script>
 
 <form method="post" action="/api/auth/logout" on:submit|preventDefault={logoutHandler}>
-	<Button>Logout</Button>
+	<Button element="button" {className}>Logout</Button>
 </form>
