@@ -23,7 +23,7 @@
 <svelte:element
 	this={element}
 	class={cn(
-		'inline-block cursor-pointer rounded-3xl border border-transparent px-3 py-2 font-semibold disabled:cursor-not-allowed disabled:opacity-50',
+		'inline-block cursor-pointer rounded-3xl border-2 border-transparent px-3 py-2 font-semibold disabled:cursor-not-allowed disabled:opacity-50',
 		{
 			'bg-accent text-background hover:bg-accent/75': variant === 'solid',
 			'border-light-gray bg-transparent text-white hover:bg-medium-gray': variant === 'outline',

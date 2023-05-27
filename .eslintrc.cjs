@@ -33,6 +33,7 @@ module.exports = {
 		}
 	],
 	globals: {
-		$$Generic: 'readonly'
+		$$Generic: 'readonly',
+		SpotifyApi: 'readonly'
 	}
 };

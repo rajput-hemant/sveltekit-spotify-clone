@@ -75,10 +75,13 @@
 				bind:this={topbar}
 				class="fixed z-50 flex h-16 w-full items-center px-4 md:w-[calc(100vw-16rem)] md:px-8"
 			>
+				<!-- topbar backround -->
 				<div
-					class="absolute left-0 top-0 -z-10 h-full w-full bg-header"
+					class="absolute left-0 top-0 -z-10 h-full w-full bg-gradient-to-b from-transparent to-black/20"
+					style:background-color={$page.data.color ?? 'rgb(0, 0, 0)'}
 					style:opacity={`${headerOpacity}`}
 				/>
+
 				<Header />
 			</div>
 		{/if}
@@ -87,7 +90,7 @@
 		<main
 			id="main-content"
 			class:logged-in={user}
-			class={cn('px-4 pb-14 pt-8 md:px-8', user && 'p-16')}
+			class={cn('px-4 pb-14 pt-8 md:px-8', user && 'pt-16')}
 		>
 			<slot />
 		</main>

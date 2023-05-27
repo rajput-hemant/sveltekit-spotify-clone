@@ -18,10 +18,10 @@ export const cn = (...inputs: ClassValue[]) => {
  * @param path Path to fetch
  * @returns Response from fetch
  */
-export async function fetchRefresh(
+export const fetchRefresh = async (
 	fetch: (input: URL | RequestInfo, init?: RequestInit | undefined) => Promise<Response>,
 	path: string
-) {
+) => {
 	const request = fetch(path);
 
 	// if request is made on server, return request,
@@ -55,4 +55,34 @@ export async function fetchRefresh(
 	} else {
 		return response;
 	}
-}
+};
+
+/**
+ * Returns the correct symbol for the given type
+ * @param type The type of symbol to get
+ * @returns The symbol
+ */
+export const getCopyrightSymbol = (type: string): string => {
+	switch (type) {
+		case 'R':
+			return '®';
+		case 'P':
+			return '℗';
+		case 'C':
+			return '©';
+		default:
+			return type;
+	}
+};
+
+/**
+ * Returns the duration in the format mm:ss
+ * @param duration The duration in miliseconds
+ * @returns The duration in the format mm:ss
+ */
+export const getDuration = (duration: number): string => {
+	const minutes = Math.floor(duration / 60000);
+	const seconds = Math.floor((duration % 60000) / 1000);
+
+	return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+};

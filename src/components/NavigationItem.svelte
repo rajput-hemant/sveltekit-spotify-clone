@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { cn } from '$lib/utils';
+	import type { Icon } from 'lucide-svelte';
+	import type { ComponentType } from 'svelte';
 
 	export let item: {
 		path: string;
 		label: string;
-		icon: any;
+		icon: ComponentType<Icon>;
 	};
 	export let ref: HTMLElement | undefined = undefined;
 	export let onKeyDown: ((e: KeyboardEvent) => void) | undefined = undefined;
