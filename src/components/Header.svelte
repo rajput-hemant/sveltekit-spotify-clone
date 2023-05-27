@@ -11,18 +11,19 @@
 </script>
 
 <!-- container -->
-<div class="flex w-full items-center justify-between">
+<div class="content flex w-full items-center justify-between">
 	<!-- left -->
-	<div class="">
+	<div>
 		{#if browser}
 			<Navigation desktop={false} />
 		{/if}
 	</div>
 
 	<!-- right -->
-	<div class="">
+	<div>
 		<!-- profile buttom -->
 		<button
+			id="profile-button"
 			title={user?.display_name ?? 'Profile'}
 			use:tippy={{
 				content: document.getElementById('profile-menu') || undefined,
@@ -73,12 +74,30 @@
 					<a href="/profile" class="w-full px-4 py-2 text-menu-text">View Profile</a>
 				</li>
 
-				<li class="flex h-10 w-full items-center hover:bg-white/10">
+				<li class="flex h-10 items-center hover:bg-white/10">
 					<Logout
-						className="bg-transparent w-full font-normal hover:bg-transparent text-menu-text py-2 text-left px-4"
+						className="bg-transparent block w-full font-normal hover:bg-transparent text-menu-text py-2 text-left px-4"
 					/>
 				</li>
 			</ul>
 		</div>
 	</div>
 </div>
+
+<style lang="postcss">
+	/* styles for when js is disabled */
+	:global(html.no-js) #profile-button {
+		@apply hidden;
+	}
+
+	:global(html.no-js) #profile-menu {
+		@apply block;
+	}
+	:global(html.no-js) #profile-menu > ul {
+		@apply m-0 flex p-0;
+	}
+
+	:global(html.no-js) .content {
+		@apply justify-start md:justify-between;
+	}
+</style>

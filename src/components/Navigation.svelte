@@ -13,8 +13,6 @@
 		icon: ComponentType<Icon>;
 	};
 
-	export let desktop = false;
-
 	const menuItems: MenuItem[] = [
 		{
 			path: '/',
@@ -32,6 +30,8 @@
 			icon: ListMusic
 		}
 	];
+
+	export let desktop = false;
 
 	// refs
 	let openMenuButton: IconButton;
@@ -124,6 +124,7 @@
 
 		<!-- nav content innner -->
 		<div
+			id="nav-content-inner"
 			on:keyup={handleEsc}
 			class={cn(
 				'z-50 hidden h-screen min-w-[16rem] translate-x-0 overflow-auto bg-sidebar p-5 transition-all duration-300',
@@ -159,3 +160,10 @@
 		</div>
 	</nav>
 </div>
+
+<style lang="postcss">
+	/* show navigation menu when js is disabled */
+	:global(html.no-js) #nav-content-inner {
+		@apply block h-auto md:h-screen;
+	}
+</style>

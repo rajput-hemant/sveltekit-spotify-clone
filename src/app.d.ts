@@ -10,6 +10,11 @@ declare global {
 		}
 		// interface Platform {}
 	}
+
+	// add refreshPromise as a property to the window object
+	interface Window {
+		refreshPromise?: Promise<Response>;
+	}
 }
 
 export {};

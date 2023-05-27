@@ -9,7 +9,7 @@
 	import '../app.css';
 
 	import NProgress from 'nprogress';
-	import { hideAll } from 'tippy.js';
+	// import { hideAll } from 'tippy.js';
 	import { page } from '$app/stores';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import Header from '$components/Header.svelte';
@@ -60,7 +60,7 @@
 {/if}
 
 <!-- main -->
-<div class="flex">
+<div id="main" class="flex">
 	{#if user}
 		<aside>
 			<Navigation desktop={true} />
@@ -71,6 +71,7 @@
 		<!-- topbar -->
 		{#if user}
 			<div
+				id="topbar"
 				bind:this={topbar}
 				class="fixed z-50 flex h-16 w-full items-center px-4 md:w-[calc(100vw-16rem)] md:px-8"
 			>
@@ -83,8 +84,27 @@
 		{/if}
 
 		<!-- main content -->
-		<main id="main-content" class={cn('px-4 pb-14 pt-8 md:px-8', user && 'p-16')}>
+		<main
+			id="main-content"
+			class:logged-in={user}
+			class={cn('px-4 pb-14 pt-8 md:px-8', user && 'p-16')}
+		>
 			<slot />
 		</main>
 	</div>
 </div>
+
+<style lang="postcss">
+	/* styles for when js is disabled */
+	:global(html.no-js) #main {
+		@apply block md:flex;
+	}
+
+	:global(html.no-js) #topbar {
+		@apply sticky top-0 h-auto bg-header px-5 py-2.5;
+	}
+
+	:global(html.no-js) .logged-in {
+		@apply pt-8;
+	}
+</style>
