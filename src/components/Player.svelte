@@ -36,9 +36,10 @@
 </script>
 
 <!-- player -->
-<div class={className}>
+<div class="player {className}">
 	<audio
 		src={track.preview_url}
+		controls
 		bind:this={audio}
 		bind:paused
 		on:play={handlePlay}
@@ -59,3 +60,17 @@
 		{/if}
 	</button>
 </div>
+
+<!-- styles for when js is disabled  -->
+<style lang="postcss">
+	:global(html.no-js) audio {
+		@apply block w-36 sm:w-56;
+	}
+	:global(html.no-js) button {
+		@apply hidden;
+	}
+
+	:global(html.no-js) .player {
+		@apply block;
+	}
+</style>

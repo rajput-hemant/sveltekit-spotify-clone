@@ -17,6 +17,19 @@
 		--error: 239 68 68;
 		--warning: 231 169 23;
 	}
+
+	::-webkit-scrollbar {
+		@apply h-3 w-3;
+	}
+
+	::-webkit-scrollbar-track {
+		@apply bg-background;
+	}
+
+	::-webkit-scrollbar-thumb {
+		@apply bg-white/30 hover:bg-white/50;
+	}
+
 	body {
 		@apply bg-background font-metropolis text-text;
 	}

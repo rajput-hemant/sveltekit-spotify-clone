@@ -10,7 +10,7 @@
 </script>
 
 <!-- row header -->
-<div class="mb-4 flex items-center rounded border-b border-white/10 p-5">
+<div class="header mb-4 flex items-center rounded border-b border-white/10 p-5">
 	<!-- number column -->
 	<div class="w-8">
 		<span class="text-sm text-light-gray">#</span>
@@ -30,9 +30,9 @@
 
 {#each tracks as track, index}
 	<!-- row -->
-	<div class="group flex items-center rounded px-1 py-2 hover:bg-white/5">
+	<div class="row group flex items-center rounded px-1 py-2 hover:bg-white/5">
 		<!-- number column -->
-		<div class="flex w-8 items-center justify-center">
+		<div class="number-column flex w-8 items-center justify-center">
 			{#if currentlyPlaying === track.id && !isPaused}
 				<img src="/assets/playing.gif" alt="" class="w-3 group-hover:hidden" />
 			{:else}
@@ -56,7 +56,12 @@
 		<div class="flex-1">
 			<!-- track title -->
 			<div class="flex items-center">
-				<h4 class={cn('text-xl font-semibold', track.id === currentlyPlaying && 'text-accent')}>
+				<h4
+					class={cn(
+						'truncate text-xl font-semibold',
+						track.id === currentlyPlaying && 'text-accent'
+					)}
+				>
 					{track.name}
 				</h4>
 
@@ -69,7 +74,7 @@
 			</div>
 
 			<!-- artists -->
-			<p class="m-0 mt-2 text-sm text-light-gray">
+			<p class="m-0 mt-2 line-clamp-2 text-sm text-light-gray">
 				{#each track.artists as artist, artistsIndex}
 					<a href="/artist/{artist.id}" class="text-inherit hover:brightness-110">{artist.name}</a
 					>{#if artistsIndex < track.artists.length - 1}{', '}{/if}
@@ -80,12 +85,27 @@
 		<!-- duration column -->
 		<div>
 			<!-- duration -->
-			<span class="text-sm text-light-gray">{getDuration(track.duration_ms)}</span>
+			<span class="duration text-sm text-light-gray">{getDuration(track.duration_ms)}</span>
 		</div>
 
 		<!-- actions column -->
-		<div class="ml-4 w-8">
+		<div class="actions ml-4 w-8">
 			<ListPlus aria-hidden={true} focusable="false" />
 		</div>
 	</div>
 {/each}
+
+<!-- styles for when js is disabled  -->
+<style lang="postcss">
+	:global(html.no-js) .header {
+		@apply hidden sm:flex;
+	}
+
+	:global(html.no-js) .number-column {
+		@apply mr-2 w-36 sm:w-56;
+	}
+
+	:global(html.no-js) .number-column span {
+		@apply hidden;
+	}
+</style>
