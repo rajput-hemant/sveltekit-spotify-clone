@@ -7,7 +7,7 @@ export const load: PageLoad = async ({ fetch, params, depends, route }) => {
 	// this will be used to invalidate the load function
 	depends(`app:${route.id}`);
 
-	const response = await fetchRefresh(fetch, `/api/spotify/albums/${params.id}uh`);
+	const response = await fetchRefresh(fetch, `/api/spotify/albums/${params.id}`);
 
 	if (!response.ok) {
 		throw error(response.status, 'Failed to load album!');
@@ -26,7 +26,7 @@ export const load: PageLoad = async ({ fetch, params, depends, route }) => {
 
 	return {
 		title: album.name,
-		album: album,
+		album,
 		color
 	};
 };

@@ -30,7 +30,9 @@
 
 {#each tracks as track, index}
 	<!-- row -->
-	<div class="row group flex items-center rounded px-1 py-2 hover:bg-white/5">
+	<div
+		class="row group flex max-w-[calc(100vw-8rem)] items-center rounded px-1 py-2 hover:bg-white/5"
+	>
 		<!-- number column -->
 		<div class="number-column flex w-8 items-center justify-center">
 			{#if currentlyPlaying === track.id && !isPaused}
@@ -48,17 +50,17 @@
 				on:pause={(e) => {
 					isPaused = e.detail.track.id === currentlyPlaying;
 				}}
-				className="group-hover:block hidden"
+				className="group-hover:flex items-centerx hidden"
 			/>
 		</div>
 
 		<!-- info column -->
-		<div class="flex-1">
+		<div class="flex-1 pl-3">
 			<!-- track title -->
 			<div class="flex items-center">
 				<h4
 					class={cn(
-						'truncate text-xl font-semibold',
+						'line-clamp-1 text-xl font-semibold',
 						track.id === currentlyPlaying && 'text-accent'
 					)}
 				>

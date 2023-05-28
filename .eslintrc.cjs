@@ -11,7 +11,8 @@ module.exports = {
 	plugins: ['@typescript-eslint'],
 	rules: {
 		'tailwindcss/no-custom-classname': 'off',
-		'tailwindcss/classnames-order': 'error'
+		'tailwindcss/classnames-order': 'error',
+		'svelte/no-at-html-tags': 'warn'
 	},
 	parserOptions: {
 		sourceType: 'module',
