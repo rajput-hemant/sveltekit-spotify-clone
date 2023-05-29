@@ -73,6 +73,14 @@
 		/* @apply focus-visible:outline-none focus-visible:outline-accent; */
 		@apply ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2;
 	}
+
+	input {
+		@apply h-10 rounded-3xl px-5 text-sm text-medium-gray;
+	}
+
+	dialog {
+		@apply rounded bg-medium-gray text-text backdrop:bg-black/50 backdrop:backdrop-blur;
+	}
 }
 
 @layer components {

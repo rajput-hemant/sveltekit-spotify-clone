@@ -20,7 +20,7 @@
 					'bg-warning': toast.type === 'warning'
 				})}
 			>
-				<div class="" role="status">{toast.message}</div>
+				<div role="status">{toast.message}</div>
 
 				<!-- close button -->
 				<button on:click={() => toasts.remove(toast.id)} class="absolute right-0 top-0 p-2.5">

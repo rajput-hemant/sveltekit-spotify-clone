@@ -1,12 +1,15 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
+	import PlaylistForm from '$components/PlaylistForm.svelte';
 	import Card from '$components/Card.svelte';
-	import { Plus } from 'lucide-svelte';
-	import type { PageData } from './$types';
+	import { Plus, X } from 'lucide-svelte';
+	import type { PageData, ActionData } from './$types';
 	import Pagination from '$components/Pagination.svelte';
 	import { toasts } from '$stores';
 
 	export let data: PageData;
+	export let form: ActionData;
+	let dialog: HTMLDialogElement;
 
 	$: playlists = data.userPlaylists;
 
@@ -32,22 +35,27 @@
 
 		isLoading = false;
 	};
+
+	const handleDialog = () => {
+		if (dialog.open) dialog.close();
+		else dialog.showModal();
+	};
 </script>
 
 <!-- content -->
-<div class="py-14">
+<div class="py-5">
 	{#if playlists.items.length > 0}
 		<!-- title -->
 		<div class="flex items-center justify-between">
 			<h1>{data.title}</h1>
 
-			<Button element="button"><Plus class="h-5 w-5" /> Add New</Button>
+			<Button element="button" on:click={handleDialog}><Plus class="h-5 w-5" /> Add New</Button>
 		</div>
 
 		<!-- grid items -->
 		<div class="grid-items my-10">
 			{#each playlists.items as item}
-				<div class="">
+				<div>
 					<Card {item} />
 				</div>
 			{/each}
@@ -60,7 +68,18 @@
 		<div class="mt-10 space-x-3 text-center">
 			<p class="text-2xl font-semibold">No Playlist yet!</p>
 
-			<Button element="button"><Plus class="h-5 w-5" /> Add New</Button>
+			<Button element="a" href="/playlists/new"><Plus class="h-5 w-5" /> Add New</Button>
 		</div>
 	{/if}
 </div>
+
+<dialog bind:this={dialog} class="relative w-96 p-10">
+	<!-- close button -->
+	<div class="absolute right-0 top-0 p-5">
+		<button on:click={handleDialog} class="text-white/50 hover:text-white"><X /></button>
+	</div>
+
+	<h2 class="mb-5">Add a New Playlist</h2>
+
+	<PlaylistForm userId={data.user?.id} {form} />
+</dialog>
