@@ -16,6 +16,7 @@
 	import Navigation from '$components/Navigation.svelte';
 	import { cn } from '$lib/utils';
 	import type { LayoutData } from './$types';
+	import Toasts from '$components/Toasts.svelte';
 
 	NProgress.configure({ showSpinner: false });
 
@@ -50,6 +51,9 @@
 <svelte:head>
 	<title>{$page.data.title ? `${$page.data.title} | ` : ''} Svelte Spotify</title>
 </svelte:head>
+
+<!-- toast -->
+<Toasts />
 
 {#if user}
 	<a

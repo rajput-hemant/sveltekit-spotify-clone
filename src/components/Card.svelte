@@ -22,7 +22,7 @@
 				class="object-cover transition-transform duration-300 group-hover:scale-105"
 			/>
 
-			<Skeleton className="absolute inset-0" />
+			<Skeleton className="absolute inset-0 -z-10" />
 		</div>
 	{:else}
 		<!-- cover placeholder -->

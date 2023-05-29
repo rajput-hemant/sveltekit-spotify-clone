@@ -12,7 +12,8 @@ const config = {
 			$components: './src/components',
 			$lib: './src/lib',
 			$actions: './src/actions',
-			$styles: './src/styles'
+			$styles: './src/styles',
+			$stores: './src/stores'
 		},
 
 		files: {

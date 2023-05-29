@@ -5,8 +5,8 @@
 	type Element = $$Generic<'button' | 'a'>;
 
 	type ButtonElements = {
-		button: HTMLButtonAttributes;
-		a: HTMLAnchorAttributes;
+		button: Omit<HTMLButtonAttributes, 'class'>;
+		a: Omit<HTMLAnchorAttributes, 'class'>;
 	};
 
 	type $$Props = ButtonElements[Element] & {
@@ -18,12 +18,18 @@
 	export let element: Element;
 	export let variant: 'solid' | 'outline' | 'danger' = 'solid';
 	export let className = '';
+
+	let node: HTMLAreaElement | HTMLButtonElement;
+
+	export const focus = () => {
+		node.focus();
+	};
 </script>
 
 <svelte:element
 	this={element}
 	class={cn(
-		'inline-block cursor-pointer rounded-3xl border-2 border-transparent px-3 py-2 font-semibold disabled:cursor-not-allowed disabled:opacity-50',
+		'inline-flex cursor-pointer rounded-3xl border-2 border-transparent px-3 py-2 font-semibold disabled:cursor-not-allowed disabled:opacity-50',
 		{
 			'bg-accent text-background hover:bg-accent/75': variant === 'solid',
 			'border-light-gray bg-transparent text-white hover:bg-medium-gray': variant === 'outline',

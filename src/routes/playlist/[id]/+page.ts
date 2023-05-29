@@ -3,22 +3,35 @@ import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 /** Load the playlist page */
-export const load: PageLoad = async ({ fetch: _fetch, params, depends, route, url }) => {
+export const load: PageLoad = async ({ fetch: _fetch, params, depends, route, url, parent }) => {
 	// this will be used to invalidate the load function
 	depends(`app:${route.id}`);
+
+	const { user } = await parent();
 
 	const fetch = (path: string) => fetchRefresh(_fetch, path);
 
 	const limit = 100;
 	const page = url.searchParams.get('page');
 
-	const response = await fetch(`/api/spotify/playlists/${params.id}`);
+	const [playlistRes, isFollowingRes] = await Promise.all([
+		fetch(`/api/spotify/playlists/${params.id}`),
+		fetch(`/api/spotify/playlists/${params.id}/followers/contains?ids=${user?.id}`)
+	]);
 
-	if (!response.ok) {
-		throw error(response.status, 'Failed to load playlist!');
+	if (!playlistRes.ok) {
+		throw error(playlistRes.status, 'Failed to load playlist!');
 	}
 
-	const playlist: SpotifyApi.SinglePlaylistResponse = await response.json();
+	let isFollowing: boolean | null = null;
+
+	if (isFollowingRes.ok) {
+		const isFollowingJSON: SpotifyApi.UsersFollowPlaylistResponse = await isFollowingRes.json();
+
+		isFollowing = isFollowingJSON[0];
+	}
+
+	const playlist: SpotifyApi.SinglePlaylistResponse = await playlistRes.json();
 
 	if (page && page !== '1') {
 		const tracksResponse = await fetch(
@@ -38,16 +51,17 @@ export const load: PageLoad = async ({ fetch: _fetch, params, depends, route, ur
 	let color = null;
 
 	if (playlist.images.length > 0) {
-		const response = await fetch(`/api/sharp?image=${playlist.images[0].url}`);
+		const playlistRes = await fetch(`/api/sharp?image=${playlist.images[0].url}`);
 
-		if (response.ok) {
-			color = (await response.json()).color;
+		if (playlistRes.ok) {
+			color = (await playlistRes.json()).color;
 		}
 	}
 
 	return {
 		title: playlist.name,
 		playlist,
-		color
+		color,
+		isFollowing
 	};
 };
