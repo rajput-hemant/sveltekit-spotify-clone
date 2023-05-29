@@ -2,11 +2,12 @@
 	import Button from '$components/Button.svelte';
 	import ItemPage from '$components/ItemPage.svelte';
 	import TrackList from '$components/TrackList.svelte';
-	import { ArrowLeft, ArrowRight, Heart, Loader2 } from 'lucide-svelte';
+	import { Heart, Loader2 } from 'lucide-svelte';
 	import type { ActionData, PageData } from './$types';
 	import { page } from '$app/stores';
 	import { applyAction, enhance } from '$app/forms';
 	import { toasts } from '$stores';
+	import Pagination from '$components/Pagination.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -15,9 +16,6 @@
 	$: playlist = data.playlist;
 	$: psuedoTracks = data.playlist.tracks;
 	$: isFollowing = data.isFollowing;
-
-	// pagination (shows up only when js is disabled)
-	$: currentPage = $page.url.searchParams.get('page') || 1;
 
 	let tracks: SpotifyApi.TrackObjectFull[];
 	let isLoading = false;
@@ -137,44 +135,8 @@
 	{#if psuedoTracks.items.length > 0}
 		<TrackList {tracks} />
 
-		{#if psuedoTracks.next}
-			<!-- load more -->
-			<div class="load-more p-4 text-center">
-				<Button element="button" variant="outline" disabled={isLoading} on:click={loadMore}>
-					Load More
-					<span class="sr-only">Tracks</span>
-				</Button>
-			</div>
-		{/if}
-
-		<!-- pagination (shows up only when js is disabled) -->
-		<div class="pagination mt-10 hidden w-full justify-between">
-			<!-- previous -->
-			{#if psuedoTracks.previous}
-				<Button
-					element="a"
-					href="{$page.url.pathname}?page={Number(currentPage) - 1}"
-					variant="outline"
-					className="group"
-				>
-					<ArrowLeft class="transition-transform duration-300 group-hover:-translate-x-1" />
-					<span>Previous</span>
-				</Button>
-			{/if}
-
-			<!-- next -->
-			{#if psuedoTracks.next}
-				<Button
-					element="a"
-					href="{$page.url.pathname}?page={Number(currentPage) + 1}"
-					variant="outline"
-					className="group"
-				>
-					<span>Next</span>
-					<ArrowRight class="transition-transform duration-300 group-hover:translate-x-1" />
-				</Button>
-			{/if}
-		</div>
+		<!-- pagination -->
+		<Pagination list={psuedoTracks} on:loadmore={loadMore} {isLoading} />
 	{:else}
 		<!-- empty playlist -->
 		<div class="mt-10 space-x-3 text-center">
@@ -185,14 +147,3 @@
 		</div>
 	{/if}
 </ItemPage>
-
-<!-- styles for when js is disabled  -->
-<style lang="postcss">
-	:global(html.no-js) .load-more {
-		display: none;
-	}
-
-	:global(html.no-js) .pagination {
-		display: flex;
-	}
-</style>
