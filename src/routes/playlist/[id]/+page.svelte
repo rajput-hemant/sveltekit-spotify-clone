@@ -2,7 +2,7 @@
 	import Button from '$components/Button.svelte';
 	import ItemPage from '$components/ItemPage.svelte';
 	import TrackList from '$components/TrackList.svelte';
-	import { Heart, Loader2, X } from 'lucide-svelte';
+	import { Heart, Loader2, Pen, X } from 'lucide-svelte';
 	import type { ActionData, PageData } from './$types';
 	import { applyAction, enhance } from '$app/forms';
 	import { toasts } from '$stores';
@@ -54,11 +54,6 @@
 
 		isLoading = false;
 	};
-
-	const handleDialog = () => {
-		if (dialog.open) dialog.close();
-		else dialog.showModal();
-	};
 </script>
 
 <ItemPage
@@ -84,7 +79,9 @@
 	<!-- playlist actions -->
 	<div class="mb-7 mt-2.5 flex justify-end">
 		{#if data.user?.id === playlist.owner.id}
-			<Button element="button" on:click={handleDialog}>Edit Playlist</Button>
+			<Button element="button" on:click={() => dialog.showModal()} className="items-center gap-1">
+				<Pen class="h-5 w-5" /> Edit Playlist
+			</Button>
 		{:else if isFollowing !== null}
 			<!-- follow form -->
 			<form
@@ -154,15 +151,15 @@
 	{/if}
 </ItemPage>
 
-<dialog bind:this={dialog} class="relative w-96 p-10">
+<dialog bind:this={dialog} class="relative min-w-[30rem] max-w-[40rem] p-10">
 	<!-- close button -->
 	<div class="absolute right-0 top-0 p-5">
-		<button on:click={handleDialog} class="text-white/50 hover:text-white"><X /></button>
+		<button on:click={() => dialog.close()} class="text-white/50 hover:text-white"><X /></button>
 	</div>
 
-	<h2>
+	<h2 class="truncate">
 		Edit <span class="font-bold text-accent">{data.playlist.name}</span>
 	</h2>
 
-	<PlaylistForm {playlist} {form} action="?/editPlaylist" />
+	<PlaylistForm {playlist} {form} action="?/editPlaylist" on:redirect={() => dialog.close()} />
 </dialog>

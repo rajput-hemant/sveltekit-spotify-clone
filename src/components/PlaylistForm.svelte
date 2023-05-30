@@ -3,7 +3,14 @@
 	import { cn } from '$lib/utils';
 	import type { ActionData as AddActionData } from '../routes/playlists/$types';
 	import type { ActionData as EditActionData } from '../routes/playlist/[id]/$types';
-	import { enhance } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
+	import { createEventDispatcher } from 'svelte';
+	import { Loader2, Pen, Save } from 'lucide-svelte';
+
+	const dispatch = createEventDispatcher<{
+		success: () => void;
+		redirect: () => void;
+	}>();
 
 	export let form: AddActionData | EditActionData;
 	export let userId: string | undefined = undefined;
@@ -12,9 +19,31 @@
 		| SpotifyApi.PlaylistObjectFull
 		| SpotifyApi.PlaylistObjectSimplified
 		| undefined = undefined;
+
+	let isLoading = false;
 </script>
 
-<form method="post" {action} use:enhance>
+<form
+	method="post"
+	{action}
+	use:enhance={() => {
+		isLoading = true;
+		return async ({ result }) => {
+			await applyAction(result);
+			isLoading = false;
+
+			console.log(result);
+
+			if (result.type === 'success') {
+				dispatch('success');
+				console.log('success');
+			} else if (result.type === 'redirect') {
+				dispatch('redirect');
+				console.log('redirect');
+			}
+		};
+	}}
+>
 	{#if userId}
 		<input hidden name="userId" value={userId} />
 	{/if}
@@ -57,7 +86,21 @@
 	{/if}
 
 	<!-- submit button -->
-	<div class="mt-10 text-right">
-		<Button element="button" type="submit">{playlist ? 'Save' : 'Create'} Playlist</Button>
+	<div class="mt-10 text-center">
+		<Button element="button" type="submit" className="gap-1 items-center">
+			{#if playlist}
+				{#if isLoading}
+					<Loader2 class="h-5 w-5 animate-spin" />
+				{:else}
+					<Save class="h-5 w-5" />
+				{/if} Save
+			{:else}
+				{#if isLoading}
+					<Loader2 class="h-5 w-5 animate-spin" />
+				{:else}
+					<Pen class="h-5 w-5" />
+				{/if} Create
+			{/if} Playlist
+		</Button>
 	</div>
 </form>

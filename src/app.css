@@ -79,7 +79,7 @@
 	}
 
 	dialog {
-		@apply rounded bg-medium-gray text-text backdrop:bg-black/50 backdrop:backdrop-blur;
+		@apply rounded bg-dark-gray text-text backdrop:bg-black/50 backdrop:backdrop-blur;
 	}
 }
 

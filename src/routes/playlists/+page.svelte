@@ -35,11 +35,6 @@
 
 		isLoading = false;
 	};
-
-	const handleDialog = () => {
-		if (dialog.open) dialog.close();
-		else dialog.showModal();
-	};
 </script>
 
 <!-- content -->
@@ -49,7 +44,9 @@
 		<div class="flex items-center justify-between">
 			<h1>{data.title}</h1>
 
-			<Button element="button" on:click={handleDialog}><Plus class="h-5 w-5" /> Add New</Button>
+			<Button element="button" on:click={() => dialog.showModal()} className="items-center gap-1">
+				<Plus class="h-5 w-5" /> Add New
+			</Button>
 		</div>
 
 		<!-- grid items -->
@@ -73,10 +70,10 @@
 	{/if}
 </div>
 
-<dialog bind:this={dialog} class="relative w-96 p-10">
+<dialog bind:this={dialog} class="relative min-w-[30rem] max-w-[40rem] p-10">
 	<!-- close button -->
 	<div class="absolute right-0 top-0 p-5">
-		<button on:click={handleDialog} class="text-white/50 hover:text-white"><X /></button>
+		<button on:click={() => dialog.close()} class="text-white/50 hover:text-white"><X /></button>
 	</div>
 
 	<h2 class="mb-5">Add a New Playlist</h2>
