@@ -3,9 +3,11 @@
 	import { fade } from 'svelte/transition';
 	import NavigationItem from './NavigationItem.svelte';
 	import { beforeNavigate } from '$app/navigation';
-	import { Home, Search, ListMusic, type Icon, Menu, X } from 'lucide-svelte';
+	import { Home, Search, ListMusic, type Icon, Menu, X, Music } from 'lucide-svelte';
 	import { cn } from '$lib/utils';
 	import IconButton from './IconButton.svelte';
+	import { page } from '$app/stores';
+	import Skeleton from './Skeleton.svelte';
 
 	type MenuItem = {
 		path: string;
@@ -32,6 +34,7 @@
 	];
 
 	export let desktop = false;
+	export let userAllPlaylists: SpotifyApi.PlaylistObjectSimplified[] | undefined = undefined;
 
 	// refs
 	let openMenuButton: IconButton;
@@ -127,9 +130,9 @@
 			id="nav-content-inner"
 			on:keyup={handleEsc}
 			class={cn(
-				'z-50 hidden h-screen min-w-[16rem] translate-x-0 overflow-auto bg-sidebar p-5 transition-all duration-300',
-				desktop && 'md:block',
-				!desktop && 'fixed left-0 top-0 block md:hidden',
+				'z-50 hidden h-screen w-64 translate-x-0 bg-sidebar transition-all duration-300 lg:w-80',
+				desktop && 'flex-col md:flex',
+				!desktop && 'fixed left-0 top-0 flex flex-col md:hidden',
 				!(desktop || isMobileMenuOpen) && 'invisible -translate-x-full opacity-0'
 			)}
 		>
@@ -143,20 +146,72 @@
 				/>
 			{/if}
 
-			<!-- logo -->
-			<img src="/assets/spotify-logo.png" alt="Spotify Logo" class="w-32 max-w-full" />
+			<!-- logo and menu -->
+			<div class="px-5 pt-5">
+				<!-- logo -->
+				<img src="/assets/spotify-logo.png" alt="Spotify Logo" class="w-32 max-w-full" />
 
-			<ul class="mt-5">
-				{#each menuItems as item, index}
-					<li>
-						{#if menuItems.length === index + 1}
-							<NavigationItem ref={lastFocusableElement} {item} onKeyDown={moveFocusToTop} />
-						{:else}
-							<NavigationItem {item} />
-						{/if}
-					</li>
-				{/each}
-			</ul>
+				<ul class="mt-5">
+					{#each menuItems as item, index}
+						<li>
+							{#if menuItems.length === index + 1}
+								<NavigationItem ref={lastFocusableElement} {item} onKeyDown={moveFocusToTop} />
+							{:else}
+								<NavigationItem {item} />
+							{/if}
+						</li>
+					{/each}
+				</ul>
+			</div>
+
+			{#if userAllPlaylists && userAllPlaylists.length > 0}
+				<ul class="overflow-y-scroll border-t border-white/10 px-2 pt-5 lg:px-5">
+					{#each userAllPlaylists as playlist}
+						<li
+							class={cn(
+								'group relative mb-2 flex h-16 gap-2 overflow-hidden rounded p-1 hover:bg-dark-gray',
+								playlist.id === $page.params.id && 'bg-dark-gray font-semibold'
+							)}
+						>
+							{#if playlist.images.length > 0}
+								<!-- image -->
+								<div
+									class="relative aspect-square w-14 overflow-hidden rounded shadow-md shadow-black"
+								>
+									<img
+										src={playlist.images[0].url}
+										alt={playlist.name}
+										class="w-full object-cover"
+									/>
+
+									<Skeleton className="absolute inset-0 -z-10" />
+								</div>
+							{:else}
+								<!-- image placeholder -->
+								<div
+									class="flex aspect-square w-14 items-center justify-center rounded bg-medium-gray shadow-md shadow-black"
+								>
+									<Music focusable="false" aria-hidden={true} class="h-3/5 w-3/5 text-light-gray" />
+								</div>
+							{/if}
+
+							<div class="flex flex-col justify-between p-1">
+								<a
+									class="line-clamp-1 cursor-pointer text-lg font-semibold text-text after:absolute after:inset-0"
+									href="/playlist/{playlist.id}"
+								>
+									{playlist.name}
+								</a>
+
+								<span class="line-clamp-1 text-sm text-white/75">
+									{playlist.owner.display_name ?? 'N/A'}
+								</span>
+							</div>
+						</li>
+					{/each}
+				</ul>
+				<!-- </div> -->
+			{/if}
 		</div>
 	</nav>
 </div>
@@ -165,5 +220,9 @@
 	/* show navigation menu when js is disabled */
 	:global(html.no-js) #nav-content-inner {
 		@apply block h-auto md:h-screen;
+	}
+
+	:global(html.no-js) #nav-content-inner > ul {
+		@apply hidden md:block;
 	}
 </style>

@@ -65,5 +65,28 @@ export const actions: Actions = {
 		} else {
 			throw redirect(303, `/playlist/${params.id}`);
 		}
+	},
+
+	removeItem: async ({ fetch, cookies, params, request }) => {
+		const data = await request.formData();
+		const track = data.get('track');
+
+		const playlist = params.id;
+
+		const response = await fetch(`${SPOTIFY_BASE_URL}/playlists/${playlist}/tracks`, {
+			method: 'DELETE',
+			headers: {
+				Authorization: `Bearer ${cookies.get('access_token')}`
+			},
+			body: JSON.stringify({
+				uris: [`spotify:track:${track}`]
+			})
+		});
+
+		if (!response.ok) {
+			throw redirect(303, `/playlist/${playlist}?error=${response.statusText}`);
+		}
+
+		throw redirect(303, `/playlist/${playlist}?success=Track Removed Successfully!`);
 	}
 };

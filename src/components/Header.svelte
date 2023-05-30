@@ -7,6 +7,8 @@
 	import Skeleton from './Skeleton.svelte';
 	import Logout from './Logout.svelte';
 
+	export let userAllPlaylists: SpotifyApi.PlaylistObjectSimplified[] | undefined;
+
 	$: user = $page.data.user;
 </script>
 
@@ -15,7 +17,7 @@
 	<!-- left -->
 	<div>
 		{#if browser}
-			<Navigation desktop={false} />
+			<Navigation desktop={false} {userAllPlaylists} />
 		{/if}
 	</div>
 
@@ -58,7 +60,7 @@
 		<!-- profile menu -->
 		<div id="profile-menu" class="hidden">
 			<!-- profile menu content -->
-			<ul>
+			<ul class="flex flex-col gap-1 p-2">
 				<li class="flex h-10 items-center hover:bg-white/10">
 					<a
 						href={user?.external_urls.spotify}
@@ -74,7 +76,7 @@
 					<a href="/profile" class="w-full px-4 py-2 text-menu-text">View Profile</a>
 				</li>
 
-				<li class="flex h-10 items-center hover:bg-white/10">
+				<li class="flex h-10 items-center border-t border-white/10 hover:bg-white/10">
 					<Logout
 						className="bg-transparent block w-full font-normal hover:bg-transparent text-menu-text py-2 text-left px-4"
 					/>

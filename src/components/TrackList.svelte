@@ -1,12 +1,23 @@
 <script lang="ts">
 	import { cn, getDuration } from '$lib/utils';
-	import { Clock8, ListPlus } from 'lucide-svelte';
+	import { Clock8, ListPlus, ListX } from 'lucide-svelte';
 	import Player from './Player.svelte';
+	import tippy from '$actions/tippy/tippy-plugins';
+	import Button from './Button.svelte';
+	import { page } from '$app/stores';
+	import { enhance } from '$app/forms';
+	import { toasts } from '$stores';
+	import { hideAll } from 'tippy.js';
+	import { invalidateAll } from '$app/navigation';
 
 	export let tracks: (SpotifyApi.TrackObjectFull | SpotifyApi.TrackObjectSimplified)[];
+	export let isOwner = false;
+	export let userPlaylists: SpotifyApi.PlaylistObjectSimplified[] | undefined = undefined;
 
 	let currentlyPlaying: string | null = null;
 	let isPaused = false;
+	let isAddToPlaylist: string[] = [];
+	let isRemovingFromPlaylist: string[] = [];
 </script>
 
 <!-- row header -->
@@ -31,7 +42,7 @@
 {#each tracks as track, index}
 	<!-- row -->
 	<div
-		class="row group flex max-w-[calc(100vw-8rem)] items-center rounded px-1 py-2 hover:bg-white/5"
+		class="row group flex items-center rounded px-1 py-2 hover:bg-white/5 lg:max-w-[calc(100vw-8rem)]"
 	>
 		<!-- number column -->
 		<div class="number-column flex w-8 items-center justify-center">
@@ -91,8 +102,153 @@
 		</div>
 
 		<!-- actions column -->
-		<div class="actions ml-4 w-8">
-			<ListPlus aria-hidden={true} focusable="false" />
+		<div class={cn('actions ml-4 w-8', isOwner && '')}>
+			{#if isOwner}
+				<form
+					method="post"
+					action="/playlist/{$page.params.id}?/removeItem"
+					use:enhance={({ cancel }) => {
+						if (isRemovingFromPlaylist.includes(track.id)) {
+							cancel();
+						}
+
+						isRemovingFromPlaylist = [...isRemovingFromPlaylist, track.id];
+
+						return ({ result }) => {
+							if (result.type === 'error') {
+								toasts.error(result.error.message);
+							}
+
+							if (result.type === 'redirect') {
+								const url = new URL(`${$page.url.origin}${result.location}`);
+								const error = url.searchParams.get('error');
+								const success = url.searchParams.get('success');
+
+								if (error) {
+									toasts.error(error);
+								}
+
+								if (success) {
+									toasts.success(success);
+									invalidateAll();
+								}
+							}
+
+							isRemovingFromPlaylist = isRemovingFromPlaylist.filter((t) => t !== track.id);
+						};
+					}}
+				>
+					<input hidden name="track" value={track.id} />
+
+					<button
+						type="submit"
+						title="Remove {track.name} from playlist"
+						aria-label="Remove {track.name} from playlist"
+					>
+						<ListX
+							aria-hidden={true}
+							focusable="false"
+							class="text-light-gray hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+						/>
+					</button>
+				</form>
+			{:else}
+				<button
+					title="Add {track.name} to playlist"
+					aria-label="Add {track.name} to playlist"
+					disabled={!userPlaylists}
+					use:tippy={{
+						content: document.getElementById(`${track.id}-playlist-menu`) || undefined,
+						allowHTML: true,
+						trigger: 'click',
+						interactive: true,
+						theme: 'menu',
+						placement: 'bottom-end',
+						onMount: () => {
+							const template = document.getElementById(`${track.id}-playlist-menu`);
+
+							if (template) {
+								template.classList.remove('hidden');
+							}
+						}
+					}}
+				>
+					<ListPlus
+						aria-hidden={true}
+						focusable="false"
+						class="text-light-gray hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+					/>
+				</button>
+
+				<!-- tippy popup -->
+				{#if userPlaylists}
+					<!-- playlist menu -->
+					<div id="{track.id}-playlist-menu" class="hidden">
+						<!-- playlist menu content -->
+						<form
+							method="post"
+							action="/playlist?/addItem&redirect={$page.url.pathname}"
+							class="p-4"
+							use:enhance={({ cancel }) => {
+								if (isAddToPlaylist.includes(track.id)) {
+									cancel();
+								}
+
+								isAddToPlaylist = [...isAddToPlaylist, track.id];
+
+								return ({ result }) => {
+									if (result.type === 'error') {
+										toasts.error(result.error.message);
+									}
+
+									if (result.type === 'redirect') {
+										const url = new URL(`${$page.url.origin}${result.location}`);
+
+										const error = url.searchParams.get('error');
+										const success = url.searchParams.get('success');
+
+										if (error) {
+											toasts.error(error);
+										}
+
+										if (success) {
+											toasts.success(success);
+											hideAll(); // on success hide all tippy popups
+										}
+									}
+
+									isAddToPlaylist = isAddToPlaylist.filter((id) => id !== track.id);
+								};
+							}}
+						>
+							<!-- this is just to access track id in action -->
+							<input hidden value={track.id} name="track" />
+
+							<!-- field -->
+							<select
+								name="playlist"
+								id=""
+								aria-label="Playlist"
+								class="h-9 w-full rounded bg-white/10 p-2"
+							>
+								{#each userPlaylists as playlist}
+									<option value={playlist.id} class="border-none bg-background/90"
+										>{playlist.name}</option
+									>
+								{/each}
+							</select>
+
+							<!-- submit button -->
+
+							<div class="mt-4 text-center">
+								<Button element="button" type="submit" className="px-5">
+									Add <span class="sr-only"> to selected playlist.</span>
+								</Button>
+							</div>
+						</form>
+					</div>
+				{/if}
+			{/if}
 		</div>
 	</div>
 {/each}

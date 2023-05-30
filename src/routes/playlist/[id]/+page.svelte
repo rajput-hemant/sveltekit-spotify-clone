@@ -8,6 +8,7 @@
 	import { toasts } from '$stores';
 	import Pagination from '$components/Pagination.svelte';
 	import PlaylistForm from '$components/PlaylistForm.svelte';
+	import { invalidateAll } from '$app/navigation';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -101,6 +102,7 @@
 							await applyAction(result);
 						}
 
+						invalidateAll();
 						// focus back on the button when using the keyboard
 						followButton.focus();
 					};
@@ -136,7 +138,11 @@
 	</div>
 
 	{#if psuedoTracks.items.length > 0}
-		<TrackList {tracks} />
+		<TrackList
+			{tracks}
+			isOwner={data.user?.id === playlist.owner.id}
+			userPlaylists={data.userAllPlaylists?.filter((p) => data.user?.id === p.owner.id)}
+		/>
 
 		<!-- pagination -->
 		<Pagination list={psuedoTracks} on:loadmore={loadMore} {isLoading} />

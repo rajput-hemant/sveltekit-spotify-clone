@@ -2,7 +2,7 @@ import { redirect } from '@sveltejs/kit';
 import type { LayoutLoad } from './$types';
 
 export const load: LayoutLoad = ({ data, url }) => {
-	const { user } = data ?? {};
+	const { user, userAllPlaylists } = data ?? {};
 
 	// if we're not logged in, redirect to the login page
 	if (!user && url.pathname !== '/login') throw redirect(307, '/login');
@@ -11,6 +11,7 @@ export const load: LayoutLoad = ({ data, url }) => {
 	if (user && url.pathname === '/login') throw redirect(307, '/');
 
 	return {
-		user
+		user,
+		userAllPlaylists
 	};
 };
