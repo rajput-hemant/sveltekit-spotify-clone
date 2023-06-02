@@ -1,17 +1,23 @@
 <script lang="ts">
 	import { Music } from 'lucide-svelte';
 	import Skeleton from './Skeleton.svelte';
+	import { cn } from '$lib/utils';
 
 	export let title: string,
+		type: string | undefined,
 		color: string | null,
 		image: string | undefined,
-		type: string | undefined;
+		bannerClass: string | undefined = undefined,
+		imageClass: string | undefined = undefined;
 </script>
 
 <!-- banner -->
 
 <div
-	class="relative -mx-[30px] -mt-[calc(30px+2rem)] flex flex-col px-8 pb-5 pt-[calc(30px+2rem)] sm:flex-row sm:items-end"
+	class={cn(
+		'relative -mx-[30px] -mt-[calc(30px+2rem)] flex flex-col px-8 pb-5 pt-[calc(30px+2rem)] sm:flex-row sm:items-end',
+		bannerClass
+	)}
 >
 	<!-- banner gradient -->
 	<div
@@ -20,7 +26,7 @@
 	/>
 
 	<!-- cover -->
-	<div class="mb-8 sm:mb-0 sm:mr-8">
+	<div class={cn('mb-8 overflow-hidden sm:mb-0 sm:mr-8', imageClass)}>
 		{#if image}
 			<div class="relative aspect-square shadow-md shadow-black sm:w-64 md:w-52 lg:w-64">
 				<img src={image} alt={title} class="w-full object-cover" />

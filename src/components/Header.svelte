@@ -96,7 +96,7 @@
 		@apply block;
 	}
 	:global(html.no-js) #profile-menu > ul {
-		@apply m-0 flex p-0;
+		@apply m-0 flex flex-row p-0;
 	}
 
 	:global(html.no-js) .content {

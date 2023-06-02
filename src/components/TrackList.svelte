@@ -81,8 +81,9 @@
 				{#if track.explicit}
 					<span
 						class="ml-2 rounded border border-white/10 px-2 py-0.5 text-[8px] uppercase text-light-gray"
-						>Explicit</span
 					>
+						Explicit
+					</span>
 				{/if}
 			</div>
 
@@ -102,7 +103,7 @@
 		</div>
 
 		<!-- actions column -->
-		<div class={cn('actions ml-4 w-8', isOwner && '')}>
+		<div class="actions ml-4 w-8 bg-red-200">
 			{#if isOwner}
 				<form
 					method="post"
@@ -172,6 +173,7 @@
 							}
 						}
 					}}
+					class="add-btn"
 				>
 					<ListPlus
 						aria-hidden={true}
@@ -232,9 +234,9 @@
 								class="h-9 w-full rounded bg-white/10 p-2"
 							>
 								{#each userPlaylists as playlist}
-									<option value={playlist.id} class="border-none bg-background/90"
-										>{playlist.name}</option
-									>
+									<option value={playlist.id} class="border-none bg-background/90">
+										{playlist.name}
+									</option>
 								{/each}
 							</select>
 
@@ -265,5 +267,13 @@
 
 	:global(html.no-js) .number-column span {
 		@apply hidden;
+	}
+
+	:global(html.no-js) .actions {
+		@apply hidden;
+	}
+
+	:global(html.no-js) .duration {
+		@apply mr-8;
 	}
 </style>
