@@ -103,7 +103,7 @@
 		</div>
 
 		<!-- actions column -->
-		<div class="actions ml-4 w-8 bg-red-200">
+		<div class="actions ml-4 w-8">
 			{#if isOwner}
 				<form
 					method="post"

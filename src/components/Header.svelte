@@ -6,6 +6,7 @@
 	import Navigation from './Navigation.svelte';
 	import Skeleton from './Skeleton.svelte';
 	import Logout from './Logout.svelte';
+	import SearchForm from './SearchForm.svelte';
 
 	export let userAllPlaylists: SpotifyApi.PlaylistObjectSimplified[] | undefined;
 
@@ -18,6 +19,12 @@
 	<div>
 		{#if browser}
 			<Navigation desktop={false} {userAllPlaylists} />
+		{/if}
+
+		{#if $page.url.pathname.startsWith('/search')}
+			<div class="search-form ml-5 hidden lg:block">
+				<SearchForm />
+			</div>
 		{/if}
 	</div>
 
@@ -101,5 +108,9 @@
 
 	:global(html.no-js) .content {
 		@apply justify-start md:justify-between;
+	}
+
+	:global(html.no-js) .search-form {
+		margin-left: 0px;
 	}
 </style>

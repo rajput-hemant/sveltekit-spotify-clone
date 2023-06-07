@@ -18,6 +18,7 @@
 	import type { LayoutData } from './$types';
 	import Toasts from '$components/Toasts.svelte';
 	import { X } from 'lucide-svelte';
+	import SearchForm from '$components/SearchForm.svelte';
 
 	NProgress.configure({ showSpinner: false });
 
@@ -121,6 +122,12 @@
 			class:logged-in={user}
 			class={cn('px-4 pb-14 pt-8 md:px-8', user && 'pt-16')}
 		>
+			{#if $page.url.pathname.startsWith('/search')}
+				<div class="mb-10 lg:hidden">
+					<SearchForm />
+				</div>
+			{/if}
+
 			<slot />
 		</main>
 	</div>

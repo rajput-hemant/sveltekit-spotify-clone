@@ -30,9 +30,10 @@
 	<div class="content">
 		{#if topTracks && topTracks.tracks.length > 0}
 			<div class="mt-10">
-				<div class="items-titlecenter mt-2 flex justify-between">
+				<div class="items-title center mt-2 flex justify-between">
 					<h2 class="text-2xl font-semibold">Top Tracks</h2>
 				</div>
+
 				<TrackList
 					tracks={topTracks.tracks}
 					userPlaylists={data.userAllPlaylists?.filter((pl) => pl.owner.id === data.user?.id)}
@@ -41,13 +42,15 @@
 		{/if}
 
 		{#if albums && albums.items.length > 0}
-			<div class="section">
-				<div class="section-title">
-					<h2>Albums</h2>
-					<Button element="a" href={`/artist/${artist.id}/albums`} variant="outline"
-						>View All <span class="visually-hidden">Albums</span></Button
-					>
+			<div class="mt-10">
+				<div class="mb-3 flex items-center justify-between">
+					<h2 class="text-2xl font-semibold">Albums</h2>
+
+					<Button element="a" href={`/artist/${artist.id}/albums`} variant="outline">
+						View All <span class="sr-only">Albums</span>
+					</Button>
 				</div>
+
 				<div class="grid-items">
 					{#each albums.items as album}
 						<div class="grid-item">
@@ -59,13 +62,15 @@
 		{/if}
 
 		{#if appearsOn && appearsOn.items.length > 0}
-			<div class="section">
-				<div class="section-title">
-					<h2>Appears On</h2>
-					<Button element="a" href={`/artist/${artist.id}/appears-on`} variant="outline"
-						>View All <span class="visually-hidden">artist appearances</span></Button
-					>
+			<div class="mt-10">
+				<div class="mb-3 flex items-center justify-between">
+					<h2 class="text-2xl font-semibold">Appears On</h2>
+
+					<Button element="a" href={`/artist/${artist.id}/appears-on`} variant="outline">
+						View All <span class="sr-only">artist appearances</span>
+					</Button>
 				</div>
+
 				<div class="grid-items">
 					{#each appearsOn.items as album}
 						<div class="grid-item">
@@ -77,13 +82,15 @@
 		{/if}
 
 		{#if relatedArtists && relatedArtists.artists.length > 0}
-			<div class="section">
-				<div class="section-title">
-					<h2>Related Artists</h2>
-					<Button element="a" href={`/artist/${artist.id}/related-artists`} variant="outline"
-						>View All <span class="visually-hidden">Related Artists</span></Button
-					>
+			<div class="mt-10">
+				<div class="mb-3 flex w-full items-center justify-between">
+					<h2 class="text-2xl font-semibold">Related Artists</h2>
+
+					<Button element="a" href={`/artist/${artist.id}/related-artists`} variant="outline">
+						View All <span class="sr-only">Related Artists</span>
+					</Button>
 				</div>
+
 				<div class="grid-items">
 					{#each relatedArtists.artists.splice(0, 6) as artists}
 						<div class="grid-item">

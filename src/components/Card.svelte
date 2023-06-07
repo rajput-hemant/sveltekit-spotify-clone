@@ -23,7 +23,7 @@
 		<div
 			class={cn(
 				'relative mb-5 aspect-square w-full overflow-hidden rounded',
-				item.type === 'artist' && 'w-36 max-w-full rounded-full shadow-md shadow-black'
+				item.type === 'artist' && 'rounded-full shadow-md shadow-black'
 			)}
 		>
 			<img
@@ -39,8 +39,8 @@
 		<!-- cover placeholder -->
 		<div
 			class={cn(
-				'mb-5 flex aspect-square w-full items-center justify-center bg-medium-gray transition-[background] duration-300 hover:bg-dark-gray',
-				item.type === 'artist' && 'w-36 max-w-full rounded-full shadow-md shadow-black'
+				'mb-5 flex aspect-square w-full items-center justify-center bg-medium-gray transition-[background] duration-300 group-hover:bg-dark-gray',
+				item.type === 'artist' && 'rounded-full shadow-md shadow-black'
 			)}
 		>
 			<Music aria-hidden={true} focusable="false" class="h-2/5 w-2/5 text-light-gray" />
