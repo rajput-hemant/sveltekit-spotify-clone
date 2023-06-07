@@ -9,7 +9,7 @@
 	$: artists = data.searchResults.artists?.items;
 </script>
 
-<h1 class="text-3xl">{data.title}</h1>
+<h1 class="my-5 text-3xl">{data.title}</h1>
 
 {#if (!albums || albums.length === 0) && (!playlists || playlists.length === 0) && (!artists || artists.length === 0)}
 	<p>No results found!</p>

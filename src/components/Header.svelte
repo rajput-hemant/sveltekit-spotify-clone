@@ -7,6 +7,7 @@
 	import Skeleton from './Skeleton.svelte';
 	import Logout from './Logout.svelte';
 	import SearchForm from './SearchForm.svelte';
+	import HeaderNav from './HeaderNav.svelte';
 
 	export let userAllPlaylists: SpotifyApi.PlaylistObjectSimplified[] | undefined;
 
@@ -20,6 +21,8 @@
 		{#if browser}
 			<Navigation desktop={false} {userAllPlaylists} />
 		{/if}
+
+		<HeaderNav />
 
 		{#if $page.url.pathname.startsWith('/search')}
 			<div class="search-form ml-5 hidden lg:block">

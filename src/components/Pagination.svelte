@@ -4,7 +4,7 @@
 	import Button from './Button.svelte';
 	import { ArrowLeft, ArrowRight } from 'lucide-svelte';
 
-	export let list: SpotifyApi.PagingObject<any>;
+	export let list: SpotifyApi.PagingObject<any> | SpotifyApi.CursorBasedPagingObject<any>;
 	export let isLoading: boolean;
 
 	const dispatch = createEventDispatcher<{
@@ -30,7 +30,7 @@
 <!-- pagination (shows up only when js is disabled) -->
 <div class="pagination mt-10 hidden w-full justify-between">
 	<!-- previous -->
-	{#if list.previous}
+	{#if 'previous' in list}
 		<Button
 			element="a"
 			href="{$page.url.pathname}?page={parseInt(currentPage) - 1}"
