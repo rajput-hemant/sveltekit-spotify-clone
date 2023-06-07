@@ -9,7 +9,7 @@ export default {
 				header: 'rgb(var(--header) / <alpha-value>)',
 				text: 'rgb(var(--text) / <alpha-value>)',
 				accent: 'rgb(var(--accent) / <alpha-value>)',
-				'menu-bg': 'rgb(var(--menu-bg / <alpha-value>)',
+				'menu-bg': 'rgb(var(--menu-bg) / <alpha-value>)',
 				'menu-text': 'rgb(var(--menu-text) / <alpha-value>)',
 				'light-gray': 'rgb(var(--light-gray) / <alpha-value>)',
 				'medium-gray': 'rgb(var(--medium-gray) / <alpha-value>)',
